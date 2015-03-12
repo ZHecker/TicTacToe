@@ -7,7 +7,6 @@ public class TicTacToeBoard {
 	static JFrame jFrame = new JFrame();
 	static JButton felder[][];
 
-
 	public final int G1[] = new int[] {0,0,2,2};
 	public final int G2[] = new int[] {3,0,5,2};
 	public final int G3[] = new int[] {6,0,8,2};
@@ -18,26 +17,29 @@ public class TicTacToeBoard {
 	public final int G8[] = new int[] {3,6,5,8};
 	public final int G9[] = new int[] {6,6,8,8};
 
+	private Player player;
+	private int moves = 0;
+
 	public TicTacToeBoard(){
 
 		jFrame.setLayout(new GridLayout(9,9));
 		felder = new JButton[9][9];
+		player = new Player();
 
 		for (int y = 0; y < 9; y++) {
 			for (int x = 0; x < 9; x++) {
 
 				felder[x][y] = new JButton("(" + x + "," + y + ")");
-				felder[x][y].addActionListener(new ButtonListener(this,x,y,felder[x][y]));
+				felder[x][y].addActionListener(new ButtonListener(this,x,y));
 				jFrame.add(felder[x][y]);
 			}
 		}
 
+		jFrame.setTitle("X is Playing");
 		jFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		jFrame.pack();
 		jFrame.setVisible(true);
 	}
-
-
 
 	private void finishGame(String winner)
 	{
@@ -51,8 +53,17 @@ public class TicTacToeBoard {
 		}
 	}
 
-	public boolean check4win(String player,int move,int x,int y)
+	public boolean check4win(String player,int x,int y)
 	{
+
+		if(player.equals("X"))
+		{
+			jFrame.setTitle("O is Playing");
+		}
+		else
+		{
+			jFrame.setTitle("X is Playing");
+		}
 
 		int cons = 0;
 
@@ -93,54 +104,116 @@ public class TicTacToeBoard {
 			}
 		}
 
+		cons = 0;
+		int diagonalenX = x;
+		int diagonalenY = y;
+
+		while(diagonalenX !=0 && diagonalenY != 0)
+		{
+			diagonalenX--;
+			diagonalenY--;
+		}
+
+		while (diagonalenX < 8 && diagonalenY < 8)
+		{
+
+			if(felder[diagonalenX][diagonalenY].getText().equals(player))
+			{
+				cons++;
+			}
+			else
+			{
+				cons = 0;
+			}
+			if(cons == 3)
+			{
+				finishGame(player);
+				return true;
+			}
+
+			diagonalenX++;
+			diagonalenY++;
+		}
+
+		cons = 0;
+
+		int antiDiagonalenX = x;
+		int antiDiagonalenY = y;
+
+		while(antiDiagonalenX !=8 && antiDiagonalenY != 0)
+		{
+			antiDiagonalenX++;
+			antiDiagonalenY--;
+		}
 
 
-		
-		if(move == (9^2 - 1)){
+		while (antiDiagonalenX >= 0 && antiDiagonalenY < 8)
+		{
+
+			if(felder[antiDiagonalenX][antiDiagonalenY].getText().equals(player))
+			{
+				cons++;
+			}
+			else
+			{
+				cons = 0;
+			}
+			if(cons == 3)
+			{
+				finishGame(player);
+				return true;
+			}
+
+			antiDiagonalenX--;
+			antiDiagonalenY++;
+
+		}
+
+		if(moves == (9^2 - 1)){
 			System.out.println("Draw!");
 		}
 
 
 		return false;
-
 	}
 
-	public void setActiveGroup(ButtonListener grid)
+	public void setActiveGroup(int x,int y)
 	{
 
-		if(grid.y % 3 == 0 && grid.x % 3 == 0)
+		if(y % 3 == 0 && x % 3 == 0)
 		{
 			activateGroup(G1);
+
 		}
-		else if(grid.y % 3 == 0 && (grid.x-1) % 3 == 0)
+		else if(y % 3 == 0 && (x-1) % 3 == 0)
 		{
 			activateGroup(G2);
 		}
-		else if(grid.y % 3 == 0 && (grid.x-2) % 3 == 0)
+		else if(y % 3 == 0 && (x-2) % 3 == 0)
 		{
 			activateGroup(G3);
 		}
-		else if((grid.y-1) % 3 == 0 && (grid.x) % 3 == 0)
+		else if((y-1) % 3 == 0 && (x) % 3 == 0)
 		{
 			activateGroup(G4);
 		}
-		else if((grid.y-1) % 3 == 0 && (grid.x-1) % 3 == 0)
+		else if((y-1) % 3 == 0 && (x-1) % 3 == 0)
 		{
 			activateGroup(G5);
 		}
-		else if((grid.y-1) % 3 == 0 && (grid.x-2) % 3 == 0)
+		else if((y-1) % 3 == 0 && (x-2) % 3 == 0)
 		{
 			activateGroup(G6);
 		}
-		else if((grid.y-2) % 3 == 0 && (grid.x) % 3 == 0)
+		else if((y-2) % 3 == 0 && (x) % 3 == 0)
 		{
 			activateGroup(G7);
 		}
-		else if((grid.y-2) % 3 == 0 && (grid.x-1) % 3 == 0)
+		else if((y-2) % 3 == 0 && (x-1) % 3 == 0)
 		{
 			activateGroup(G8);
 		}
-		else if((grid.y-2) % 3 == 0 && (grid.x-2) % 3 == 0)
+		else if((y-2) % 3 == 0 && (x-2) % 3 == 0)
 		{
 			activateGroup(G9);
 		}
@@ -163,6 +236,28 @@ public class TicTacToeBoard {
 		}
 	}
 
+
+	public void klick(int x,int y)
+	{
+
+		JButton button = felder[x][y];
+
+		if(!button.getText().equals("X") && !button.getText().equals("O"))
+		{
+			button.setText(player.getPlayer());
+			moves++;
+
+			if (!check4win(player.getPlayer(),x,y))
+			{
+				setActiveGroup(x, y);
+				player.switchPlayer();
+			}
+		}
+		else
+		{
+			System.out.println("Not a valid move!");
+		}
+	}
 
 	public static void main(String[] args)
 	{
