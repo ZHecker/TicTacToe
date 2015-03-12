@@ -4,9 +4,16 @@ import java.awt.event.ActionListener;
 
 public class ButtonListener implements ActionListener {
 
-	private TicTacToeBoard tboard;
+
 	public int x,y;
+	private int move;
+	private TicTacToeBoard tboard;
 	private JButton button;
+
+	static private String[] player = new String[] {"X","O"};
+	static private int playerN = 0;
+
+
 
 	public ButtonListener(TicTacToeBoard tboard, int x, int y, JButton button) {
 		this.tboard = tboard;
@@ -21,9 +28,20 @@ public class ButtonListener implements ActionListener {
 
 		if(!button.getText().equals("X") && !button.getText().equals("O"))
 		{
-			button.setText(Player_Controler.player);
-			Player_Controler.buttonPressed();
-			tboard.setActiveGroup(this);
+			button.setText(player[playerN]);
+			move++;
+
+			if (!tboard.check4win(player[playerN],move,x,y))
+			{
+				tboard.setActiveGroup(this);
+
+				if(playerN == 0)
+					playerN = 1;
+				else
+					playerN = 0;
+			}
+
+
 		}
 		else
 		{
