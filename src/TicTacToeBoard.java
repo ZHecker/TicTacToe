@@ -236,8 +236,7 @@ public class TicTacToeBoard {
 		}
 	}
 
-
-	public void klick(int x,int y)
+	public void click(int x,int y)
 	{
 
 		JButton button = felder[x][y];

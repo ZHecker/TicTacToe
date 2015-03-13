@@ -15,7 +15,7 @@ public class ButtonListener implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		tboard.klick(x,y);
+		tboard.click(x,y);
 	}
 }
 
