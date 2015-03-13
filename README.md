@@ -1,3 +1,9 @@
-# TicTacToe - Ultimate
+# Ultimate Tic Tac Toe
 
-TODO: Readme
+My Own implemenation of Ultimate TicTacToe
+
+
+TODO
+[X] Make Board
+[X]Win Conditions
+[] Add AI-Player
