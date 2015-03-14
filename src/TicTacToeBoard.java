@@ -19,6 +19,11 @@ public class TicTacToeBoard {
 
 	private Player player;
 	private int moves = 0;
+	private AI minimax;
+
+
+	public int[] activeGroup;
+
 
 	public TicTacToeBoard(){
 
@@ -221,6 +226,9 @@ public class TicTacToeBoard {
 
 	public void activateGroup(int[] gruppe)
 	{
+
+		activeGroup = gruppe;
+
 		for (int y = 0; y < 9; y++) {
 			for (int x = 0; x < 9; x++) {
 
@@ -250,6 +258,14 @@ public class TicTacToeBoard {
 			{
 				setActiveGroup(x, y);
 				player.switchPlayer();
+
+				if(player.getPlayer().equals("O"))
+				{
+					minimax = new AI();
+					minimax.generateTree(this,player.getPlayer());
+				}
+
+
 			}
 		}
 		else
