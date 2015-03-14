@@ -24,9 +24,11 @@ public class AI {
 			}
 		}
 
+		//Level l1 = new Level();
 
 		GameState s1 = new GameState(board,currentPlayer.equals("X") ? 0:1,tbord.activeGroup);
-		Level l1 = new Level();
+		Node rootNode = new Node(s1);
+		Tree miniMaxTree = new Tree(rootNode);
 
 
 		for (int y = 0; y < 9; y++) {
@@ -40,7 +42,10 @@ public class AI {
 						// int[][] newBoard = s1.board.clone(); -> NOT A DEEP COPY!
 						int[][] newBoard = copy(board);
 						newBoard[x][y] = 1;
-						l1.addLevel(new GameState(newBoard,0,getActiveGroup(x,y)));
+						GameState ng = new GameState(newBoard,0,getActiveGroup(x,y));
+						Node n1 = new Node(ng);
+						miniMaxTree.root.addChildren(n1);
+						//l1.addLevel(new GameState(newBoard,0,getActiveGroup(x,y)));
 					}
 				}
 			}
@@ -102,6 +107,5 @@ public class AI {
 		}
 		return target;
 	}
-
 
 }
