@@ -262,7 +262,7 @@ public class TicTacToeBoard {
 				if(player.getPlayer().equals("O"))
 				{
 					minimax = new AI();
-					minimax.generateTree(this,player.getPlayer());
+					minimax.generateTree(this);
 				}
 
 

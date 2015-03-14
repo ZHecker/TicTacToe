@@ -3,30 +3,37 @@ public class GameState {
 
 
 	public int[][] board;
-	public int currentMove;
 	public int[] activeGroup;
+	public Player player;
 
 
-	public GameState(int[][] board, int currentMove,int[] activeGroup) {
+	public GameState(Player player, int[][] board, int[] activeGroup) {
+		this.player = player;
 		this.board = board;
-		this.currentMove = currentMove;
 		this.activeGroup = activeGroup;
-
 	}
 
 	public void printGstate()
 	{
+
 		for (int y = 0; y < 9; y++) {
+			System.out.print("|");
 			for (int x = 0; x < 9; x++) {
 
-				System.out.print(board[x][y] + " ");
+				if(board[x][y] == -1)
+				{
+					System.out.print("  " + " | ");
+				}
+				else
+				{
+					System.out.print(" " + board[x][y] + " | ");
+				}
 			}
 			System.out.println();
 		}
 
 		System.out.println();
 	}
-
 
 	// -> Generate all possible moves -> if player = 1 -> Maximize
 	// if player = 0 -> minimize

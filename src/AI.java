@@ -2,10 +2,18 @@ import java.util.Arrays;
 
 public class AI {
 
-	private int[][] board = new int[9][9];
+	int searchDepth = 3;
+	private Player aiPlayer;
 
-	public void generateTree(TicTacToeBoard tbord,String currentPlayer)
+
+	public void generateTree(TicTacToeBoard tbord)
 	{
+
+		int[][] board = new int[9][9];
+
+		aiPlayer = new Player();
+		aiPlayer.switchPlayer();
+
 		for (int y = 0; y < 9; y++) {
 			for (int x = 0; x < 9; x++) {
 
@@ -24,9 +32,20 @@ public class AI {
 			}
 		}
 
+		GameState s1 = new GameState(aiPlayer,board,tbord.activeGroup);
+		Node rootNode = new Node(s1);
+		Tree miniMaxTree = new Tree(rootNode);
+		minimaxRecursive(1,rootNode);
+		evaluateTree(miniMaxTree);
+
+
+
+
 		//Level l1 = new Level();
 
-		GameState s1 = new GameState(board,currentPlayer.equals("X") ? 0:1,tbord.activeGroup);
+		/*
+
+		GameState s1 = new GameState(board,aiPlayer.getPlayerN(),tbord.activeGroup);
 		Node rootNode = new Node(s1);
 		Tree miniMaxTree = new Tree(rootNode);
 
@@ -48,6 +67,69 @@ public class AI {
 						//l1.addLevel(new GameState(newBoard,0,getActiveGroup(x,y)));
 					}
 				}
+			}
+		}
+		*/
+	}
+
+
+
+	public void minimaxRecursive(int currentDepth,Node node)
+	{
+		if(currentDepth < searchDepth)
+		{
+			generatePossibleMoves(node);
+
+			for(Node subNode : node.children)
+			{
+				minimaxRecursive((currentDepth+1),subNode);
+			}
+		}
+	}
+
+
+	public void generatePossibleMoves(Node node)
+	{
+
+		for (int y = 0; y < 9; y++) {
+			for (int x = 0; x < 9; x++) {
+
+				if(x>= node.value.activeGroup[0] && x<= node.value.activeGroup[2] &&
+						y>= node.value.activeGroup[1] && y<= node.value.activeGroup[3])
+				{
+
+					if(node.value.board[x][y] != 1 || node.value.board[x][y] != 0)
+					{
+						int[][] newBoard = copy(node.value.board);
+						newBoard[x][y] = node.value.player.getPlayerN();
+						GameState ng = new GameState(new Player(node.value.player),newBoard,getActiveGroup(x,y));
+						Node node1 = new Node(ng);
+						node.addChildren(node1);
+					}
+				}
+			}
+		}
+	}
+
+	public void evaluateTree(Tree tree)
+	{
+
+		System.out.println("Root Node:");
+		tree.root.value.printGstate();
+
+
+		System.out.println("Child Nodes:");
+		for(Node n : tree.root.children)
+		{
+			n.value.printGstate();
+		}
+
+		System.out.println("Child-Child Nodes:");
+		for (Node n : tree.root.children)
+		{
+			for (Node n1 : n.children)
+			{
+				n1.value.printGstate();
 			}
 		}
 	}
@@ -98,7 +180,6 @@ public class AI {
 
 		return null;
 	}
-
 
 	public int[][] copy(int[][] input) {
 		int[][] target = new int[input.length][];
