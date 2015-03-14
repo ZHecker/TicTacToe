@@ -4,18 +4,18 @@ import java.awt.*;
 public class TicTacToeBoard {
 
 
-	static JFrame jFrame = new JFrame();
-	static JButton felder[][];
+	private JFrame jFrame = new JFrame();
+	public JButton felder[][];
 
-	public final int G1[] = new int[] {0,0,2,2};
-	public final int G2[] = new int[] {3,0,5,2};
-	public final int G3[] = new int[] {6,0,8,2};
-	public final int G4[] = new int[] {0,3,2,5};
-	public final int G5[] = new int[] {3,3,5,5};
-	public final int G6[] = new int[] {6,3,8,5};
-	public final int G7[] = new int[] {0,6,2,8};
-	public final int G8[] = new int[] {3,6,5,8};
-	public final int G9[] = new int[] {6,6,8,8};
+	public static final int G1[] = new int[] {0,0,2,2};
+	public static final int G2[] = new int[] {3,0,5,2};
+	public static final int G3[] = new int[] {6,0,8,2};
+	public static final int G4[] = new int[] {0,3,2,5};
+	public static final int G5[] = new int[] {3,3,5,5};
+	public static final int G6[] = new int[] {6,3,8,5};
+	public static final int G7[] = new int[] {0,6,2,8};
+	public static final int G8[] = new int[] {3,6,5,8};
+	public static final int G9[] = new int[] {6,6,8,8};
 
 	private Player player;
 	private int moves = 0;
@@ -34,7 +34,7 @@ public class TicTacToeBoard {
 		for (int y = 0; y < 9; y++) {
 			for (int x = 0; x < 9; x++) {
 
-				felder[x][y] = new JButton("(" + x + "," + y + ")");
+				felder[x][y] = new JButton("");
 				felder[x][y].addActionListener(new ButtonListener(this,x,y));
 				jFrame.add(felder[x][y]);
 			}

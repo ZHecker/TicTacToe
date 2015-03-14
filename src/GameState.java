@@ -14,6 +14,19 @@ public class GameState {
 
 	}
 
+	public void printGstate()
+	{
+		for (int y = 0; y < 9; y++) {
+			for (int x = 0; x < 9; x++) {
+
+				System.out.print(board[x][y] + " ");
+			}
+			System.out.println();
+		}
+
+		System.out.println();
+	}
+
 
 	// -> Generate all possible moves -> if player = 1 -> Maximize
 	// if player = 0 -> minimize
