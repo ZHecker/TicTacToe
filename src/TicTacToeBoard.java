@@ -119,7 +119,7 @@ public class TicTacToeBoard {
 			diagonalenY--;
 		}
 
-		while (diagonalenX < 8 && diagonalenY < 8)
+		while (diagonalenX <= 8 && diagonalenY <= 8)
 		{
 
 			if(felder[diagonalenX][diagonalenY].getText().equals(player))
