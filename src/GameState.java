@@ -3,16 +3,35 @@ public class GameState {
 	public int[][] board;
 	public int[] activeGroup;
 	public Player player;
-	private int score = 0;
+	public int score = Integer.MIN_VALUE;
 	private final int CONSEQUENTIAL2 = 100;
 	private final int CONSEQUENTIAL3 = 10000;
+	private int x;
+	private int y;
 
 
 	public GameState(Player player, int[][] board, int[] activeGroup) {
 		this.player = player;
 		this.board = board;
 		this.activeGroup = activeGroup;
+	}
+
+	public GameState(Player player, int[][] board, int[] activeGroup,int x,int y) {
+		this.player = player;
+		this.board = board;
+		this.activeGroup = activeGroup;
 		calculateScore();
+		this.x = x;
+		this.y = y;
+	}
+
+
+	public int getY() {
+		return y;
+	}
+
+	public int getX() {
+		return x;
 	}
 
 	public void printGstate()
@@ -37,23 +56,16 @@ public class GameState {
 		System.out.println("Score: " + score);
 	}
 
-	public int getScore() {
-		return score;
-	}
-
-	private void calculateScore()
+	public int calculateScore()
 	{
-		checkVertical();
-		checkHorizontal();
-		checkDiagonal();
-		checkAntiDiagonal();
-
+		return Math.abs(checkVertical() + checkHorizontal() + checkDiagonal() + checkAntiDiagonal());
 	}
 
-	private void checkVertical()
+	private int checkVertical()
 	{
 		int consO = 0;
 		int consX = 0;
+		int score = 0;
 
 		for (int x = 0; x < 9; x++) {
 			for (int y = 0; y < 9; y++) {
@@ -97,10 +109,15 @@ public class GameState {
 
 			}
 		}
+
+		return score;
+
 	}
 
-	private void checkHorizontal()
+	private int checkHorizontal()
 	{
+		int score = 0;
+
 		int consO = 0;
 		int consX = 0;
 
@@ -144,10 +161,13 @@ public class GameState {
 				}
 			}
 		}
+		return score;
 	}
 
-	private void checkDiagonal()
+	private int checkDiagonal()
 	{
+
+		int score = 0;
 
 		for (int i = 0; i < 8; i++) {
 
@@ -205,12 +225,14 @@ public class GameState {
 				diagonalenX++;
 				diagonalenY++;
 			}
-
 		}
+		return score;
 	}
 
-	private void checkAntiDiagonal()
+	private int checkAntiDiagonal()
 	{
+
+		int score = 0;
 
 		for (int i = 1; i < 8; i++) {
 
@@ -268,5 +290,7 @@ public class GameState {
 				antiDiagonalenY++;
 			}
 		}
+
+		return score;
 	}
 }

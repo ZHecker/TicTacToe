@@ -1,12 +1,19 @@
 import java.util.Arrays;
+import java.util.Random;
 
 public class AI {
 
-	int searchDepth = 3;
+	int searchDepth = 6;
 	private Player aiPlayer;
+	private Random r;
+	private TicTacToeBoard toeBoard;
 
 
-	public void generateTree(TicTacToeBoard tbord)
+	public AI(TicTacToeBoard toeBoard) {
+		this.toeBoard = toeBoard;
+	}
+
+	public void generateTree()
 	{
 
 		int[][] board = new int[9][9];
@@ -17,13 +24,13 @@ public class AI {
 		for (int y = 0; y < 9; y++) {
 			for (int x = 0; x < 9; x++) {
 
-				if(tbord.felder[x][y].getText().equals(""))
+				if(toeBoard.felder[x][y].getText().equals(""))
 				{
 					board[x][y] = -1;
 					continue;
 				}
 
-				switch (tbord.felder[x][y].getText().charAt(0))
+				switch (toeBoard.felder[x][y].getText().charAt(0))
 				{
 					case 'X' : board[x][y] = 0; break;
 					case 'O' : board[x][y] = 1; break;
@@ -32,13 +39,11 @@ public class AI {
 			}
 		}
 
-		GameState s1 = new GameState(aiPlayer,board,tbord.activeGroup);
+		GameState s1 = new GameState(aiPlayer,board,toeBoard.activeGroup);
 		Node rootNode = new Node(s1);
 		Tree miniMaxTree = new Tree(rootNode);
-		minimaxRecursive(1,rootNode);
+		minimaxRecursive(1,miniMaxTree.root);
 		evaluateTree(miniMaxTree);
-
-
 
 
 		//Level l1 = new Level();
@@ -52,11 +57,6 @@ public class AI {
 
 		for (int y = 0; y < 9; y++) {
 			for (int x = 0; x < 9; x++) {
-
-				if(x>= s1.activeGroup[0] && x<= s1.activeGroup[2] && y>= s1.activeGroup[1] && y<= s1.activeGroup[3])
-				{
-
-					if(s1.board[x][y] != 1 || s1.board[x][y] != 0)
 					{
 						// int[][] newBoard = s1.board.clone(); -> NOT A DEEP COPY!
 						int[][] newBoard = copy(board);
@@ -71,8 +71,6 @@ public class AI {
 		}
 		*/
 	}
-
-
 
 	public void minimaxRecursive(int currentDepth,Node node)
 	{
@@ -102,8 +100,9 @@ public class AI {
 					{
 						int[][] newBoard = copy(node.value.board);
 						newBoard[x][y] = node.value.player.getPlayerN();
-						GameState ng = new GameState(new Player(node.value.player),newBoard,getActiveGroup(x,y));
-						Node node1 = new Node(ng);
+						//GameState ng = new GameState(new Player(node.value.player),newBoard,getActiveGroup(x,y));
+						GameState newState = new GameState(new Player(node.value.player),newBoard,getActiveGroup(x,y),x,y);
+						Node node1 = new Node(newState);
 						node.addChildren(node1);
 					}
 				}
@@ -113,6 +112,24 @@ public class AI {
 
 	public void evaluateTree(Tree tree)
 	{
+
+		/*
+		Node bestNode;
+
+		negamax(tree.root, -1);
+		bestNode = tree.root.children.get(0);
+
+		for (Node n : tree.root.children)
+		{
+			n.value.printGstate();
+		}
+
+		bestNode.value.printGstate();
+		toeBoard.click(bestNode.value.getX(),bestNode.value.getY());
+
+		*/
+
+
 
 		System.out.println("Root Node:");
 		tree.root.value.printGstate();
@@ -132,9 +149,34 @@ public class AI {
 				n1.value.printGstate();
 			}
 		}
+
 	}
 
 
+	private int negamax(Node n,int negamax_player)
+	{
+
+		int bestValue = Integer.MIN_VALUE;
+
+		if(n.children.size() == 0)
+		{
+			return negamax_player * (n.value.calculateScore());
+		}
+
+		for(Node n1 : n.children)
+		{
+			n1.value.score = -negamax(n1,-negamax_player);
+
+			if(n1.value.score > bestValue)
+			{
+				bestValue = n1.value.score;
+			}
+
+		}
+
+		return bestValue;
+
+	}
 
 	public int[] getActiveGroup(int x,int y)
 	{

@@ -42,7 +42,7 @@ public class TicTacToeBoard {
 
 		jFrame.setTitle("X is Playing");
 		jFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-		jFrame.pack();
+		jFrame.setMinimumSize(new Dimension(700,500));
 		jFrame.setVisible(true);
 	}
 
@@ -261,11 +261,9 @@ public class TicTacToeBoard {
 
 				if(player.getPlayer().equals("O"))
 				{
-					minimax = new AI();
-					minimax.generateTree(this);
+					minimax = new AI(this);
+					minimax.generateTree();
 				}
-
-
 			}
 		}
 		else
