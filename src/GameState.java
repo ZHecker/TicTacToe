@@ -4,8 +4,8 @@ public class GameState {
 	public int[] activeGroup;
 	public Player player;
 	public int score = Integer.MIN_VALUE;
-	private final int CONSEQUENTIAL2 = 100;
-	private final int CONSEQUENTIAL3 = 10000;
+	private final int CONSEQUENTIAL2 = 5; //5
+	private final int CONSEQUENTIAL3 = 100000; //10000
 	private int x;
 	private int y;
 
@@ -34,6 +34,19 @@ public class GameState {
 		return x;
 	}
 
+
+
+	public void printRaw()
+	{
+		for (int y = 0; y < 9; y++) {
+			for (int x = 0; x < 9; x++) {
+					System.out.print(board[x][y] + " ");
+			}
+			System.out.println();
+		}
+		System.out.println("Score: " + score);
+	}
+
 	public void printGstate()
 	{
 
@@ -58,7 +71,7 @@ public class GameState {
 
 	public int calculateScore()
 	{
-		return Math.abs(checkVertical() + checkHorizontal() + checkDiagonal() + checkAntiDiagonal());
+		return (checkVertical() + checkHorizontal() + checkDiagonal() + checkAntiDiagonal());
 	}
 
 	private int checkVertical()

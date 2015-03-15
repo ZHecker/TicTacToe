@@ -5,7 +5,7 @@ public class TicTacToeBoard {
 
 
 	private JFrame jFrame = new JFrame();
-	public JButton felder[][];
+	public ColorJButton felder[][];
 
 	public static final int G1[] = new int[] {0,0,2,2};
 	public static final int G2[] = new int[] {3,0,5,2};
@@ -19,7 +19,6 @@ public class TicTacToeBoard {
 
 	private Player player;
 	private int moves = 0;
-	private AI minimax;
 
 
 	public int[] activeGroup;
@@ -28,17 +27,32 @@ public class TicTacToeBoard {
 	public TicTacToeBoard(){
 
 		jFrame.setLayout(new GridLayout(9,9));
-		felder = new JButton[9][9];
+		felder = new ColorJButton[9][9];
 		player = new Player();
 
 		for (int y = 0; y < 9; y++) {
 			for (int x = 0; x < 9; x++) {
 
-				felder[x][y] = new JButton("");
+				felder[x][y] = new ColorJButton("");
 				felder[x][y].addActionListener(new ButtonListener(this,x,y));
 				jFrame.add(felder[x][y]);
 			}
 		}
+
+
+		setGroupColor(G1,new Color(230,230,250));
+		setGroupColor(G2,new Color(135,206,235));
+		setGroupColor(G3,new Color(144,238,144));
+
+		setGroupColor(G4,new Color(144,238,144));
+		setGroupColor(G5,new Color(230,230,250));
+		setGroupColor(G6,new Color(135,206,235));
+
+		setGroupColor(G8,new Color(144,238,144));
+		setGroupColor(G7,new Color(135,206,235));
+		setGroupColor(G9,new Color(230,230,250));
+
+
 
 		jFrame.setTitle("X is Playing");
 		jFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -226,7 +240,6 @@ public class TicTacToeBoard {
 
 	public void activateGroup(int[] gruppe)
 	{
-
 		activeGroup = gruppe;
 
 		for (int y = 0; y < 9; y++) {
@@ -235,10 +248,26 @@ public class TicTacToeBoard {
 				if(x>= gruppe[0] && x<= gruppe[2] && y>= gruppe[1] && y<= gruppe[3])
 				{
 					felder[x][y].setEnabled(true);
+					felder[x][y].setBackground(new Color(240,230,140));
 				}
 				else
 				{
 					felder[x][y].setEnabled(false);
+					felder[x][y].revertColor();
+				}
+			}
+		}
+	}
+
+	public void setGroupColor(int[] group,Color color)
+	{
+		for (int y = 0; y < 9; y++) {
+			for (int x = 0; x < 9; x++) {
+
+				if(x>= group[0] && x<= group[2] && y>= group[1] && y<= group[3])
+				{
+					felder[x][y].setDefaultColor(color);
+					felder[x][y].setBackground(color);
 				}
 			}
 		}
@@ -246,6 +275,8 @@ public class TicTacToeBoard {
 
 	public void click(int x,int y)
 	{
+
+		System.out.println("Click: " + x + "," + y);
 
 		JButton button = felder[x][y];
 
@@ -258,17 +289,21 @@ public class TicTacToeBoard {
 			{
 				setActiveGroup(x, y);
 				player.switchPlayer();
+				button.setBackground(new Color(0,128,128));
 
 				if(player.getPlayer().equals("O"))
 				{
-					minimax = new AI(this);
-					minimax.generateTree();
+					AI ai = new AI(this);
+					ai.run();
 				}
 			}
 		}
 		else
 		{
 			System.out.println("Not a valid move!");
+
+			System.out.println("Player: " + player.getPlayer() + " tried to place at:" + x + "," + y );
+
 		}
 	}
 

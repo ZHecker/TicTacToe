@@ -1,13 +1,26 @@
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
 
-public class AI {
+public class AI extends Thread {
 
-	int searchDepth = 6;
+	int searchDepth = 7;
 	private Player aiPlayer;
-	private Random r;
 	private TicTacToeBoard toeBoard;
 
+
+	public void run()
+	{
+		try {
+			Thread.sleep(1500);
+
+		}catch (Exception e)
+		{
+
+		}
+
+		generateTree();
+	}
 
 	public AI(TicTacToeBoard toeBoard) {
 		this.toeBoard = toeBoard;
@@ -40,10 +53,14 @@ public class AI {
 		}
 
 		GameState s1 = new GameState(aiPlayer,board,toeBoard.activeGroup);
+		s1.printRaw();
+
+
 		Node rootNode = new Node(s1);
 		Tree miniMaxTree = new Tree(rootNode);
-		minimaxRecursive(1,miniMaxTree.root);
+		addSubNode(1, miniMaxTree.root);
 		evaluateTree(miniMaxTree);
+
 
 
 		//Level l1 = new Level();
@@ -72,7 +89,7 @@ public class AI {
 		*/
 	}
 
-	public void minimaxRecursive(int currentDepth,Node node)
+	public void addSubNode(int currentDepth,Node node)
 	{
 		if(currentDepth < searchDepth)
 		{
@@ -80,11 +97,10 @@ public class AI {
 
 			for(Node subNode : node.children)
 			{
-				minimaxRecursive((currentDepth+1),subNode);
+				addSubNode((currentDepth + 1), subNode);
 			}
 		}
 	}
-
 
 	public void generatePossibleMoves(Node node)
 	{
@@ -96,7 +112,7 @@ public class AI {
 						y>= node.value.activeGroup[1] && y<= node.value.activeGroup[3])
 				{
 
-					if(node.value.board[x][y] != 1 || node.value.board[x][y] != 0)
+					if(node.value.board[x][y] == -1) // D'oh
 					{
 						int[][] newBoard = copy(node.value.board);
 						newBoard[x][y] = node.value.player.getPlayerN();
@@ -112,69 +128,100 @@ public class AI {
 
 	public void evaluateTree(Tree tree)
 	{
-
-		/*
-		Node bestNode;
-
-		negamax(tree.root, -1);
-		bestNode = tree.root.children.get(0);
+		System.out.println(minimax(tree.root, true));
+		int currentBest = Integer.MIN_VALUE;
+		ArrayList<Node> bestNodes = new ArrayList<Node>();
 
 		for (Node n : tree.root.children)
 		{
-			n.value.printGstate();
+
+			if(n.value.score > currentBest)
+			{
+				bestNodes.clear();
+				currentBest = n.value.score;
+				bestNodes.add(n);
+			}
+			else if(n.value.score == currentBest)
+			{
+				bestNodes.add(n);
+			}
+
 		}
 
-		bestNode.value.printGstate();
-		toeBoard.click(bestNode.value.getX(),bestNode.value.getY());
+
+		/*
+
+		for (Node n : bestNodes)
+		{
+			n.value.printGstate();
+		}
 
 		*/
 
+		Random r = new Random();
 
+		Node klick;
 
-		System.out.println("Root Node:");
-		tree.root.value.printGstate();
-
-
-		System.out.println("Child Nodes:");
-		for(Node n : tree.root.children)
+		if(bestNodes.size() > 1)
 		{
-			n.value.printGstate();
+			klick = bestNodes.get(r.nextInt(bestNodes.size()));
+		}
+		else
+		{
+			klick = bestNodes.get(0);
 		}
 
-		System.out.println("Child-Child Nodes:");
-		for (Node n : tree.root.children)
-		{
-			for (Node n1 : n.children)
-			{
-				n1.value.printGstate();
-			}
-		}
+		toeBoard.click(klick.value.getX(),klick.value.getY());
 
 	}
 
-
-	private int negamax(Node n,int negamax_player)
+	private int minimax(Node node,boolean maximizing)
 	{
 
-		int bestValue = Integer.MIN_VALUE;
-
-		if(n.children.size() == 0)
+		if(node.children.size() == 0)
 		{
-			return negamax_player * (n.value.calculateScore());
+			return node.value.calculateScore();
 		}
 
-		for(Node n1 : n.children)
-		{
-			n1.value.score = -negamax(n1,-negamax_player);
+		int bestValue;
 
-			if(n1.value.score > bestValue)
+
+		if(maximizing)
+		{
+			bestValue = Integer.MIN_VALUE;
+
+			for (Node n1 : node.children)
 			{
-				bestValue = n1.value.score;
+				int nodeValue = minimax(n1,false);
+
+				n1.value.score = nodeValue;
+
+				if(nodeValue > bestValue)
+				{
+					bestValue = nodeValue;
+
+				}
 			}
-
+			return bestValue;
 		}
+		else
+		{
+			bestValue = Integer.MAX_VALUE;
 
-		return bestValue;
+			for(Node n1 : node.children)
+			{
+				int nodeValue = minimax(n1,true);
+
+				n1.value.score = nodeValue;
+
+				if(nodeValue < bestValue)
+				{
+					bestValue = nodeValue;
+				}
+
+			}
+			return bestValue;
+		}
 
 	}
 
