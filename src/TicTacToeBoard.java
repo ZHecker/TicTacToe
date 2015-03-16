@@ -3,7 +3,6 @@ import java.awt.*;
 
 public class TicTacToeBoard {
 
-
 	private JFrame jFrame = new JFrame();
 	public ColorJButton felder[][];
 
@@ -19,7 +18,6 @@ public class TicTacToeBoard {
 
 	private Player player;
 	private int moves = 0;
-
 
 	public int[] activeGroup;
 
@@ -62,12 +60,11 @@ public class TicTacToeBoard {
 
 	private void finishGame(String winner)
 	{
+		jFrame.setTitle(winner + " has Won!");
+
 		for (int y = 0; y < 9; y++) {
 			for (int x = 0; x < 9; x++) {
-
 				felder[x][y].setEnabled(false);
-				jFrame.setTitle(winner + " has Won!");
-
 			}
 		}
 	}
@@ -166,7 +163,7 @@ public class TicTacToeBoard {
 		}
 
 
-		while (antiDiagonalenX >= 0 && antiDiagonalenY < 8)
+		while (antiDiagonalenX >= 0 && antiDiagonalenY <= 8)
 		{
 
 			if(felder[antiDiagonalenX][antiDiagonalenY].getText().equals(player))
@@ -294,7 +291,7 @@ public class TicTacToeBoard {
 				if(player.getPlayer().equals("O"))
 				{
 					AI ai = new AI(this);
-					ai.run();
+					ai.generateTree();
 				}
 			}
 		}

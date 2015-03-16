@@ -1,6 +1,6 @@
 public class GameState {
 
-	public int[][] board;
+	public byte[][] board;
 	public int[] activeGroup;
 	public Player player;
 	public int score = Integer.MIN_VALUE;
@@ -9,14 +9,13 @@ public class GameState {
 	private int x;
 	private int y;
 
-
-	public GameState(Player player, int[][] board, int[] activeGroup) {
+	public GameState(Player player, byte[][] board, int[] activeGroup) {
 		this.player = player;
 		this.board = board;
 		this.activeGroup = activeGroup;
 	}
 
-	public GameState(Player player, int[][] board, int[] activeGroup,int x,int y) {
+	public GameState(Player player, byte[][] board, int[] activeGroup,int x,int y) {
 		this.player = player;
 		this.board = board;
 		this.activeGroup = activeGroup;
@@ -33,7 +32,6 @@ public class GameState {
 	public int getX() {
 		return x;
 	}
-
 
 
 	public void printRaw()
@@ -260,7 +258,7 @@ public class GameState {
 				antiDiagonalenY--;
 			}
 
-			while (antiDiagonalenX >= 0 && antiDiagonalenY < 8)
+			while (antiDiagonalenX >= 0 && antiDiagonalenY <= 8)
 			{
 
 				if(board[antiDiagonalenX][antiDiagonalenY] == 1)
