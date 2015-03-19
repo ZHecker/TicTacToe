@@ -6,4 +6,5 @@ My Own implemenation of Ultimate TicTacToe
 TODO
 - [X] Make Board
 - [X] Win Conditions
-- [ ] Add AI-Player
+- [X] Add AI-Player
+- [ ] Make it Multiplayer (With a Server)
