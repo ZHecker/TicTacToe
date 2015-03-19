@@ -1,3 +1,5 @@
+package Game;
+
 public class GameState {
 
 	public byte[][] board;
