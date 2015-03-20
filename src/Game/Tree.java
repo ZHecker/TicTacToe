@@ -1,6 +1,6 @@
 package Game;
 
-public class Tree {
+class Tree {
 
 
 	public Node root;

@@ -1,6 +1,6 @@
 # Ultimate Tic Tac Toe
 
-My Own implemenation of Ultimate TicTacToe
+My Own implementation of Ultimate TicTacToe
 
 
 TODO

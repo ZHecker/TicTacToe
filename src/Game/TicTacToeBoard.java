@@ -3,7 +3,7 @@ package Game;
 import javax.swing.*;
 import java.awt.*;
 
-public class TicTacToeBoard {
+class TicTacToeBoard {
 
 	private JFrame jFrame = new JFrame();
 	public ColorJButton felder[][];
@@ -24,7 +24,7 @@ public class TicTacToeBoard {
 	public int[] activeGroup;
 
 
-	public TicTacToeBoard(){
+	private TicTacToeBoard(){
 
 		jFrame.setLayout(new GridLayout(9,9));
 		felder = new ColorJButton[9][9];
@@ -71,7 +71,7 @@ public class TicTacToeBoard {
 		}
 	}
 
-	public boolean check4win(String player,int x,int y)
+	boolean check4win(String player, int x, int y)
 	{
 
 		if(player.equals("X"))
@@ -195,7 +195,7 @@ public class TicTacToeBoard {
 		return false;
 	}
 
-	public void setActiveGroup(int x,int y)
+	void setActiveGroup(int x, int y)
 	{
 
 		if(y % 3 == 0 && x % 3 == 0)
@@ -237,7 +237,7 @@ public class TicTacToeBoard {
 		}
 	}
 
-	public void activateGroup(int[] gruppe)
+	void activateGroup(int[] gruppe)
 	{
 		activeGroup = gruppe;
 
@@ -258,7 +258,7 @@ public class TicTacToeBoard {
 		}
 	}
 
-	public void setGroupColor(int[] group,Color color)
+	void setGroupColor(int[] group, Color color)
 	{
 		for (int y = 0; y < 9; y++) {
 			for (int x = 0; x < 9; x++) {

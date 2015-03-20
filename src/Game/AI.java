@@ -4,11 +4,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
 
-public class AI {
+class AI {
 
-	int searchDepth = 6;
-	private Player aiPlayer;
 	private TicTacToeBoard toeBoard;
+	int searchDepth = 6;
+
 
 	public AI(TicTacToeBoard toeBoard) {
 		this.toeBoard = toeBoard;
@@ -18,7 +18,7 @@ public class AI {
 	{
 		byte[][] board = new byte[9][9];
 
-		aiPlayer = new Player();
+		Player aiPlayer = new Player();
 		aiPlayer.switchPlayer();
 
 		for (int y = 0; y < 9; y++) {
@@ -48,8 +48,9 @@ public class AI {
 
 	}
 
-	public void addSubNode(int currentDepth,Node node)
+	void addSubNode(int currentDepth, Node node)
 	{
+
 		if(currentDepth < searchDepth)
 		{
 			generatePossibleMoves(node);
@@ -61,7 +62,7 @@ public class AI {
 		}
 	}
 
-	public void generatePossibleMoves(Node node)
+	void generatePossibleMoves(Node node)
 	{
 
 		for (int y = 0; y < 9; y++) {
@@ -85,7 +86,7 @@ public class AI {
 		}
 	}
 
-	public void evaluateTree(Tree tree)
+	void evaluateTree(Tree tree)
 	{
 		minimax(tree.root,true);
 		int currentBest = Integer.MIN_VALUE;
@@ -172,7 +173,7 @@ public class AI {
 		}
 	}
 
-	public int[] getActiveGroup(int x,int y)
+	int[] getActiveGroup(int x, int y)
 	{
 
 		if(y % 3 == 0 && x % 3 == 0)
@@ -217,7 +218,7 @@ public class AI {
 		return null;
 	}
 
-	public byte[][] copy(byte[][] input) {
+	byte[][] copy(byte[][] input) {
 		byte[][] target = new byte[input.length][];
 		for (int i=0; i <input.length; i++) {
 			target[i] = Arrays.copyOf(input[i], input[i].length);

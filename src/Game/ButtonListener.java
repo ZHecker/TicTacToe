@@ -3,7 +3,7 @@ package Game;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class ButtonListener implements ActionListener {
+class ButtonListener implements ActionListener {
 
 
 	private int x,y;
