@@ -7,4 +7,4 @@ TODO
 - [X] Make Board
 - [X] Win Conditions
 - [X] Add AI-Player
-- [ ] Make it Multiplayer (With a Server)
+- [ ] Make it Multiplayer (With a server)
