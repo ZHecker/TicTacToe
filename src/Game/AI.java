@@ -173,6 +173,9 @@ class AI {
 		}
 	}
 
+	int test = 1;
+
+
 	int[] getActiveGroup(int x, int y)
 	{
 
