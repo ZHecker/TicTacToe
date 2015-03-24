@@ -9,7 +9,6 @@ class AI {
 	private TicTacToeBoard toeBoard;
 	int searchDepth = 6;
 
-
 	public AI(TicTacToeBoard toeBoard) {
 		this.toeBoard = toeBoard;
 	}
@@ -40,7 +39,6 @@ class AI {
 		}
 
 		GameState s1 = new GameState(aiPlayer,board,toeBoard.activeGroup);
-
 		Node rootNode = new Node(s1);
 		Tree miniMaxTree = new Tree(rootNode);
 		addSubNode(1, miniMaxTree.root);
@@ -50,7 +48,6 @@ class AI {
 
 	void addSubNode(int currentDepth, Node node)
 	{
-
 		if(currentDepth < searchDepth)
 		{
 			generatePossibleMoves(node);
@@ -132,9 +129,7 @@ class AI {
 		{
 			return node.value.calculateScore();
 		}
-
 		int bestValue;
-
 
 		if(maximizing)
 		{
@@ -172,7 +167,6 @@ class AI {
 			return bestValue;
 		}
 	}
-
 
 	int[] getActiveGroup(int x, int y)
 	{

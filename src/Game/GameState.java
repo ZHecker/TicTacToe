@@ -5,11 +5,16 @@ public class GameState {
 	public byte[][] board;
 	public int[] activeGroup;
 	public Player player;
-	public int score = Integer.MIN_VALUE;
+	public int score;
 	private final int CONSEQUENTIAL2 = 5; //5
-	private final int CONSEQUENTIAL3 = 100000; //10000
+	private final int CONSEQUENTIAL3 = 100; //10000
+	private final int BLOCKED_3_MOVE = 5;
 	private int x;
 	private int y;
+
+
+	// O -> 1
+	// X -> 0
 
 	public GameState(Player player, byte[][] board, int[] activeGroup) {
 		this.player = player;
@@ -83,43 +88,42 @@ public class GameState {
 		for (int x = 0; x < 9; x++) {
 			for (int y = 0; y < 9; y++) {
 
-				if(board[x][y] == 1)
+
+				switch (board[x][y])
 				{
-					consO++;
-				}
-				else
-				{
-					consO = 0;
+					case 1 : consO++;
+
+						if(consX == 2)
+						{
+							score += BLOCKED_3_MOVE;
+						}
+						consX = 0;
+						break;
+
+					case 0 : consX++;
+
+						if(consO == 2)
+						{
+							score -= BLOCKED_3_MOVE;
+						}
+						consO = 0;
+						break;
+					case -1 : consO = 0; consX = 0; break;
 				}
 
-				if(board[x][y] == 0)
+				switch (consO)
 				{
-					consX++;
-				}
-				else
-				{
-					consX = 0;
-				}
-
-				if(consO == 2)
-				{
-					score += CONSEQUENTIAL2;
-				}
-				if(consO == 3)
-				{
-					score += CONSEQUENTIAL3;
-				}
-
-				if(consX == 2)
-				{
-					score -= CONSEQUENTIAL2;
-				}
-				if(consX == 3)
-				{
-					score -= CONSEQUENTIAL3;
+					case 2 : score += CONSEQUENTIAL2; break;
+					case 3 : score += CONSEQUENTIAL3; break;
 				}
 
 
+				switch (consX)
+				{
+					case 2 : score -= CONSEQUENTIAL2; break;
+					case 3 : score -= CONSEQUENTIAL3; break;
+
+				}
 			}
 		}
 
@@ -158,6 +162,12 @@ public class GameState {
 				if(consO == 2)
 				{
 					score += CONSEQUENTIAL2;
+
+					//	if(board[x+1][y] == 0)
+					//{
+					//	score += BLOCKED_3_MOVE;
+					//}
+
 				}
 				if(consO == 3)
 				{
@@ -179,7 +189,6 @@ public class GameState {
 
 	private int checkDiagonal()
 	{
-
 		int score = 0;
 
 		for (int i = 0; i < 8; i++) {
@@ -220,6 +229,13 @@ public class GameState {
 				if(consO == 2)
 				{
 					score += CONSEQUENTIAL2;
+
+
+					//if(board[diagonalenX+1][diagonalenY+1] == 0)
+					//{
+					//	score += BLOCKED_3_MOVE;
+					//}
+
 				}
 				if(consO == 3)
 				{
@@ -229,6 +245,12 @@ public class GameState {
 				if(consX == 2)
 				{
 					score -= CONSEQUENTIAL2;
+
+					//if(board[diagonalenX+1][diagonalenY+1] == 1)
+					//{
+					//	score -= BLOCKED_3_MOVE;
+					//}
+
 				}
 				if(consX == 3)
 				{
@@ -284,6 +306,12 @@ public class GameState {
 				if(consO == 2)
 				{
 					score += CONSEQUENTIAL2;
+
+					//if(board[antiDiagonalenX -1] [antiDiagonalenY +1] == 0)
+					//{
+					//	score += BLOCKED_3_MOVE;
+					//}
+
 				}
 				if(consO == 3)
 				{
@@ -293,6 +321,12 @@ public class GameState {
 				if(consX == 2)
 				{
 					score -= CONSEQUENTIAL2;
+
+					//if(board[antiDiagonalenX -1] [antiDiagonalenY +1] == 1)
+					//{
+					//	score -= BLOCKED_3_MOVE;
+					//}
+
 				}
 				if(consX == 3)
 				{
