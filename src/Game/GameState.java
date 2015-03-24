@@ -6,9 +6,9 @@ public class GameState {
 	public int[] activeGroup;
 	public Player player;
 	public int score;
-	private final int CONSEQUENTIAL2 = 5; //5
-	private final int CONSEQUENTIAL3 = 100; //10000
-	private final int BLOCKED_3_MOVE = 5;
+	private final int CONSEQUENTIAL2 = 5;
+	private final int CONSEQUENTIAL3 = 1000;
+	private final int BLOCKED_3_MOVE = -10;
 	private int x;
 	private int y;
 
@@ -117,7 +117,6 @@ public class GameState {
 					case 3 : score += CONSEQUENTIAL3; break;
 				}
 
-
 				switch (consX)
 				{
 					case 2 : score -= CONSEQUENTIAL2; break;
@@ -141,48 +140,44 @@ public class GameState {
 		for (int y = 0; y < 9; y++) {
 			for (int x = 0; x < 9; x++) {
 
-				if(board[x][y] == 1)
+
+
+				switch (board[x][y])
 				{
-					consO++;
-				}
-				else
-				{
-					consO = 0;
+					case 1 : consO++;
+
+						if(consX == 2)
+						{
+							score += BLOCKED_3_MOVE;
+						}
+						consX = 0;
+						break;
+
+					case 0 : consX++;
+
+						if(consO == 2)
+						{
+							score -= BLOCKED_3_MOVE;
+						}
+						consO = 0;
+						break;
+					case -1 : consO = 0; consX = 0; break;
 				}
 
-				if(board[x][y] == 0)
+				switch (consO)
 				{
-					consX++;
-				}
-				else
-				{
-					consX = 0;
+					case 2 : score += CONSEQUENTIAL2; break;
+					case 3 : score += CONSEQUENTIAL3; break;
 				}
 
-				if(consO == 2)
+				switch (consX)
 				{
-					score += CONSEQUENTIAL2;
+					case 2 : score -= CONSEQUENTIAL2; break;
+					case 3 : score -= CONSEQUENTIAL3; break;
 
-					//	if(board[x+1][y] == 0)
-					//{
-					//	score += BLOCKED_3_MOVE;
-					//}
-
-				}
-				if(consO == 3)
-				{
-					score += CONSEQUENTIAL3;
-				}
-
-				if(consX == 2)
-				{
-					score -= CONSEQUENTIAL2;
-				}
-				if(consX == 3)
-				{
-					score -= CONSEQUENTIAL3;
 				}
 			}
+
 		}
 		return score;
 	}
@@ -208,54 +203,42 @@ public class GameState {
 			while (diagonalenX <= 8 && diagonalenY <= 8)
 			{
 
-				if(board[diagonalenX][diagonalenY] == 1)
-				{
-					consO++;
-				}
-				else
-				{
-					consO = 0;
-				}
 
-				if(board[diagonalenX][diagonalenY] == 0)
+				switch (board[diagonalenX][diagonalenY])
 				{
-					consX++;
-				}
-				else
-				{
-					consX = 0;
-				}
+					case 1 : consO++;
 
-				if(consO == 2)
-				{
-					score += CONSEQUENTIAL2;
+						if(consX == 2)
+						{
+							score += BLOCKED_3_MOVE;
+						}
+						consX = 0;
+						break;
 
+					case 0 : consX++;
 
-					//if(board[diagonalenX+1][diagonalenY+1] == 0)
-					//{
-					//	score += BLOCKED_3_MOVE;
-					//}
-
-				}
-				if(consO == 3)
-				{
-					score += CONSEQUENTIAL3;
+						if(consO == 2)
+						{
+							score -= BLOCKED_3_MOVE;
+						}
+						consO = 0;
+						break;
+					case -1 : consO = 0; consX = 0; break;
 				}
 
-				if(consX == 2)
+				switch (consO)
 				{
-					score -= CONSEQUENTIAL2;
+					case 2 : score += CONSEQUENTIAL2; break;
+					case 3 : score += CONSEQUENTIAL3; break;
+				}
 
-					//if(board[diagonalenX+1][diagonalenY+1] == 1)
-					//{
-					//	score -= BLOCKED_3_MOVE;
-					//}
+				switch (consX)
+				{
+					case 2 : score -= CONSEQUENTIAL2; break;
+					case 3 : score -= CONSEQUENTIAL3; break;
 
 				}
-				if(consX == 3)
-				{
-					score -= CONSEQUENTIAL3;
-				}
+
 
 				diagonalenX++;
 				diagonalenY++;
@@ -285,53 +268,41 @@ public class GameState {
 			while (antiDiagonalenX >= 0 && antiDiagonalenY <= 8)
 			{
 
-				if(board[antiDiagonalenX][antiDiagonalenY] == 1)
+				switch (board[antiDiagonalenX][antiDiagonalenY])
 				{
-					consO++;
-				}
-				else
-				{
-					consO = 0;
+					case 1 : consO++;
+
+						if(consX == 2)
+						{
+							score += BLOCKED_3_MOVE;
+						}
+						consX = 0;
+						break;
+
+					case 0 : consX++;
+
+						if(consO == 2)
+						{
+							score -= BLOCKED_3_MOVE;
+						}
+						consO = 0;
+						break;
+					case -1 : consO = 0; consX = 0; break;
 				}
 
-				if(board[antiDiagonalenX][antiDiagonalenY] == 0)
+				switch (consO)
 				{
-					consX++;
-				}
-				else
-				{
-					consX = 0;
+					case 2 : score += CONSEQUENTIAL2; break;
+					case 3 : score += CONSEQUENTIAL3; break;
 				}
 
-				if(consO == 2)
+				switch (consX)
 				{
-					score += CONSEQUENTIAL2;
-
-					//if(board[antiDiagonalenX -1] [antiDiagonalenY +1] == 0)
-					//{
-					//	score += BLOCKED_3_MOVE;
-					//}
+					case 2 : score -= CONSEQUENTIAL2; break;
+					case 3 : score -= CONSEQUENTIAL3; break;
 
 				}
-				if(consO == 3)
-				{
-					score += CONSEQUENTIAL3;
-				}
 
-				if(consX == 2)
-				{
-					score -= CONSEQUENTIAL2;
-
-					//if(board[antiDiagonalenX -1] [antiDiagonalenY +1] == 1)
-					//{
-					//	score -= BLOCKED_3_MOVE;
-					//}
-
-				}
-				if(consX == 3)
-				{
-					score -= CONSEQUENTIAL3;
-				}
 
 				antiDiagonalenX--;
 				antiDiagonalenY++;
