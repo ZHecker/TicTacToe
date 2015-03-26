@@ -308,25 +308,25 @@ class TicTacToeBoard {
 
 	public static void main(String[] args)
 	{
-		new TicTacToeBoard();
+		//new TicTacToeBoard();
 
 		byte[][] test = new byte[][]{
 
 				{-1,-1,-1,-1,-1,-1,-1,-1,-1},
+				{-1,-1,0,-1,-1,-1,-1,-1,-1},
+				{-1,-1,0,-1,-1,-1,-1,-1,-1},
 				{-1,-1,-1,-1,-1,-1,-1,-1,-1},
-				{-1,-1,-1,-1,-1,-1,-1,-1,-1},
-				{-1,-1,-1,-1,-1,-1,-1,-1,-1},
-				{-1,-1,-1,-1,-1,-1,-1,-1,-1},
-				{-1,-1,-1,-1,-1,-1,-1,-1,-1},
-				{-1,-1,-1,-1,-1,-1,-1,-1,-1},
-				{-1,-1,-1,-1,-1,-1,-1,-1,-1},
-				{-1,-1,-1,-1,-1,-1,-1,-1,-1}
+				{-1,-1,-1,-1,-1,1,0,-1,-1},
+				{-1,-1,-1,-1,-1,-1,1,-1,-1},
+				{-1,-1,0,-1,-1,-1,1,-1,-1},
+				{-1,0,-1,-1,-1,-1,-1,-1,-1},
+				{1,-1,-1,-1,-1,-1,-1,-1,-1}
 
 		};
 
-		//GameState tgs = new GameState(new Player(),test,G1);
-		//System.out.println(tgs.calculateScore());
-
+		GameState tgs = new GameState(new Player(),test,G1);
+		tgs.printGstate();
+		System.out.println(tgs.calculateScore());
 
 	}
 

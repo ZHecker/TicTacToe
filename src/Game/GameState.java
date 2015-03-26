@@ -6,9 +6,9 @@ public class GameState {
 	public int[] activeGroup;
 	public Player player;
 	public int score;
-	private final int CONSEQUENTIAL2 = 5;
+	private final int CONSEQUENTIAL2 = 10;
 	private final int CONSEQUENTIAL3 = 1000;
-	private final int BLOCKED_3_MOVE = -10;
+	private final int BLOCKED_3_MOVE = 10;
 	private int x;
 	private int y;
 
@@ -121,7 +121,43 @@ public class GameState {
 				{
 					case 2 : score -= CONSEQUENTIAL2; break;
 					case 3 : score -= CONSEQUENTIAL3; break;
+				}
+			}
+		}
 
+		return score + checkVerticalReverse();
+
+	}
+
+	private int checkVerticalReverse()
+	{
+		int consO = 0;
+		int consX = 0;
+		int score = 0;
+
+		for (int x = 8; x >= 0; x--) {
+			for (int y = 8; y >= 0; y--) {
+
+				switch (board[x][y])
+				{
+					case 1 : consO++;
+
+						if(consX == 2)
+						{
+							score += BLOCKED_3_MOVE;
+						}
+						consX = 0;
+						break;
+
+					case 0 : consX++;
+
+						if(consO == 2)
+						{
+							score -= BLOCKED_3_MOVE;
+						}
+						consO = 0;
+						break;
+					case -1 : consO = 0; consX = 0; break;
 				}
 			}
 		}
@@ -130,17 +166,15 @@ public class GameState {
 
 	}
 
+
 	private int checkHorizontal()
 	{
 		int score = 0;
-
 		int consO = 0;
 		int consX = 0;
 
 		for (int y = 0; y < 9; y++) {
 			for (int x = 0; x < 9; x++) {
-
-
 
 				switch (board[x][y])
 				{
@@ -174,13 +208,49 @@ public class GameState {
 				{
 					case 2 : score -= CONSEQUENTIAL2; break;
 					case 3 : score -= CONSEQUENTIAL3; break;
-
 				}
 			}
 
 		}
+		return score + checkHorizontalReverse();
+	}
+
+	private int checkHorizontalReverse()
+	{
+		int score = 0;
+		int consO = 0;
+		int consX = 0;
+
+		for (int y = 8; y >= 0; y--) {
+			for (int x = 8; x >= 0; x--) {
+
+
+				switch (board[x][y])
+				{
+					case 1 : consO++;
+
+						if(consX == 2)
+						{
+							score += BLOCKED_3_MOVE;
+						}
+						consX = 0;
+						break;
+
+					case 0 : consX++;
+
+						if(consO == 2)
+						{
+							score -= BLOCKED_3_MOVE;
+						}
+						consO = 0;
+						break;
+					case -1 : consO = 0; consX = 0; break;
+				}
+			}
+		}
 		return score;
 	}
+
 
 	private int checkDiagonal()
 	{
@@ -247,6 +317,7 @@ public class GameState {
 		return score;
 	}
 
+
 	private int checkAntiDiagonal()
 	{
 
@@ -311,4 +382,5 @@ public class GameState {
 
 		return score;
 	}
+
 }

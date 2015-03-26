@@ -39,10 +39,11 @@ class AI {
 		}
 
 		GameState s1 = new GameState(aiPlayer,board,toeBoard.activeGroup);
-		Node rootNode = new Node(s1);
-		Tree miniMaxTree = new Tree(rootNode);
-		addSubNode(1, miniMaxTree.root);
-		evaluateTree(miniMaxTree);
+		s1.printGstate();
+		//Node rootNode = new Node(s1);
+		//Tree miniMaxTree = new Tree(rootNode);
+		//addSubNode(1, miniMaxTree.root);
+		//evaluateTree(miniMaxTree);
 
 	}
 
